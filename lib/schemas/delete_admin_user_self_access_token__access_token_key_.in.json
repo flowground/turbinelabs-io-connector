@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "checksum": {
+            "required": true,
+            "type": "string"
+        },
+        "access_token_key": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

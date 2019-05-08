@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "clusterKey": {
+            "required": true,
+            "type": "string"
+        },
+        "checksum": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

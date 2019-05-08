@@ -1,0 +1,1014 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "checksum": {
+                    "type": "string"
+                },
+                "cohort_seed": {
+                    "properties": {
+                        "name": {
+                            "description": "The name of the cookie, the header field, or the query argument to\nbe checked for a cohort seed value.\n",
+                            "type": "string"
+                        },
+                        "type": {
+                            "description": "Where a request's cohort seed will be drawn from.",
+                            "enum": [
+                                "header",
+                                "cookie",
+                                "query"
+                            ],
+                            "type": "string"
+                        },
+                        "use_zero_value_seed": {
+                            "description": "If true, requests with a seed source which resolves to an empty value\nwill still be grouped and routed consistently. This means a misspelled\nor missing seed source on a request will sort all such traffic into a\nsingle backend. This could result in all traffic being assigned to a\nbackend intended for only a small percentage of traffic. Use with\ncaution.\n",
+                            "type": "boolean"
+                        }
+                    },
+                    "type": "object"
+                },
+                "default": {
+                    "properties": {
+                        "dark": {
+                            "items": {
+                                "properties": {
+                                    "cluster_key": {
+                                        "type": "string"
+                                    },
+                                    "constraint_key": {
+                                        "type": "string"
+                                    },
+                                    "metadata": {
+                                        "items": {
+                                            "properties": {
+                                                "key": {
+                                                    "type": "string"
+                                                },
+                                                "value": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "properties": {
+                                        "items": {
+                                            "properties": {
+                                                "key": {
+                                                    "type": "string"
+                                                },
+                                                "value": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "response_data": {
+                                        "allOf": [
+                                            {
+                                                "properties": {
+                                                    "cookies": {
+                                                        "items": {
+                                                            "description": "This describes a cookie that should be set in response to a HTTP request.\n",
+                                                            "properties": {
+                                                                "domain": {
+                                                                    "description": "Specifies the hosts to hich a cookie will be sent. Maps directly to a\ncookie's 'Domain' attribute.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "expires_in_sec": {
+                                                                    "description": "This indicates how long a cookie will be valid, in seconds. If not set the\ndefault is to provide no expiration information. If set to 0 the cookie will\nhave an 'Expires' attribute set to 'Mon, 1 Jan 0001 12:00:00 UTC'. For values\ngreater than 0 the cookie's 'Max-Age' attribute will be set to that value.\n",
+                                                                    "type": "integer"
+                                                                },
+                                                                "http_only": {
+                                                                    "description": "If set the cookie value will not be accessible via Document.cookie. Maps\ndirectly to 'HttpOnly' attribute.\n",
+                                                                    "type": "boolean"
+                                                                },
+                                                                "name": {
+                                                                    "description": "The name of the cookie that will be attached to the response sent.",
+                                                                    "type": "string"
+                                                                },
+                                                                "path": {
+                                                                    "description": "Specifies the path a cookie will be associated with. Maps directly to\nthe 'Path' attribute.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "same_site": {
+                                                                    "description": "Allows assertions how a cookie should behave wend making cross-site requests.\nMaps directly to 'SameSite' attribute. If unset no guidance will be included\nin the cookie.\n",
+                                                                    "enum": [
+                                                                        "Strict",
+                                                                        "Lax"
+                                                                    ],
+                                                                    "type": "string"
+                                                                },
+                                                                "secure": {
+                                                                    "description": "If set the cookie will only be sent on subsequent requests when accessing\na server via HTTPS. Maps directly to 'Secure' attribute.\n",
+                                                                    "type": "boolean"
+                                                                },
+                                                                "value": {
+                                                                    "description": "A literal value to send as the cookie value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "value_is_literal": {
+                                                                    "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve to a server metadatum.\n",
+                                                                    "type": "boolean"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "type": "array"
+                                                    },
+                                                    "headers": {
+                                                        "items": {
+                                                            "description": "This describes a HTTP header that should be attached to requests.\n",
+                                                            "properties": {
+                                                                "name": {
+                                                                    "description": "The name of the header that will be attached to the response sent.\nThis is case insensitive.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "value": {
+                                                                    "description": "A literal value to send as the header value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request. If this value is empty after looking up an\nInstance metadatum value no header will be sent.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "value_is_literal": {
+                                                                    "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve instance metadatum to find a value.\n",
+                                                                    "type": "boolean"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "type": "array"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        ],
+                                        "description": "When a request is served by a cluster selected by this constraint annotate\nthe response with the information specified within this ResponseData\nobject. It's possible that multiple response data configurations will\napply; if that's the case then the values from ClusterConstarint takes\nprecedence over those from a Route or SharedRules object.\n"
+                                    },
+                                    "weight": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "light": {
+                            "items": {
+                                "properties": {
+                                    "cluster_key": {
+                                        "type": "string"
+                                    },
+                                    "constraint_key": {
+                                        "type": "string"
+                                    },
+                                    "metadata": {
+                                        "items": {
+                                            "properties": {
+                                                "key": {
+                                                    "type": "string"
+                                                },
+                                                "value": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "properties": {
+                                        "items": {
+                                            "properties": {
+                                                "key": {
+                                                    "type": "string"
+                                                },
+                                                "value": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "response_data": {
+                                        "allOf": [
+                                            {
+                                                "properties": {
+                                                    "cookies": {
+                                                        "items": {
+                                                            "description": "This describes a cookie that should be set in response to a HTTP request.\n",
+                                                            "properties": {
+                                                                "domain": {
+                                                                    "description": "Specifies the hosts to hich a cookie will be sent. Maps directly to a\ncookie's 'Domain' attribute.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "expires_in_sec": {
+                                                                    "description": "This indicates how long a cookie will be valid, in seconds. If not set the\ndefault is to provide no expiration information. If set to 0 the cookie will\nhave an 'Expires' attribute set to 'Mon, 1 Jan 0001 12:00:00 UTC'. For values\ngreater than 0 the cookie's 'Max-Age' attribute will be set to that value.\n",
+                                                                    "type": "integer"
+                                                                },
+                                                                "http_only": {
+                                                                    "description": "If set the cookie value will not be accessible via Document.cookie. Maps\ndirectly to 'HttpOnly' attribute.\n",
+                                                                    "type": "boolean"
+                                                                },
+                                                                "name": {
+                                                                    "description": "The name of the cookie that will be attached to the response sent.",
+                                                                    "type": "string"
+                                                                },
+                                                                "path": {
+                                                                    "description": "Specifies the path a cookie will be associated with. Maps directly to\nthe 'Path' attribute.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "same_site": {
+                                                                    "description": "Allows assertions how a cookie should behave wend making cross-site requests.\nMaps directly to 'SameSite' attribute. If unset no guidance will be included\nin the cookie.\n",
+                                                                    "enum": [
+                                                                        "Strict",
+                                                                        "Lax"
+                                                                    ],
+                                                                    "type": "string"
+                                                                },
+                                                                "secure": {
+                                                                    "description": "If set the cookie will only be sent on subsequent requests when accessing\na server via HTTPS. Maps directly to 'Secure' attribute.\n",
+                                                                    "type": "boolean"
+                                                                },
+                                                                "value": {
+                                                                    "description": "A literal value to send as the cookie value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "value_is_literal": {
+                                                                    "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve to a server metadatum.\n",
+                                                                    "type": "boolean"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "type": "array"
+                                                    },
+                                                    "headers": {
+                                                        "items": {
+                                                            "description": "This describes a HTTP header that should be attached to requests.\n",
+                                                            "properties": {
+                                                                "name": {
+                                                                    "description": "The name of the header that will be attached to the response sent.\nThis is case insensitive.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "value": {
+                                                                    "description": "A literal value to send as the header value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request. If this value is empty after looking up an\nInstance metadatum value no header will be sent.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "value_is_literal": {
+                                                                    "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve instance metadatum to find a value.\n",
+                                                                    "type": "boolean"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "type": "array"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        ],
+                                        "description": "When a request is served by a cluster selected by this constraint annotate\nthe response with the information specified within this ResponseData\nobject. It's possible that multiple response data configurations will\napply; if that's the case then the values from ClusterConstarint takes\nprecedence over those from a Route or SharedRules object.\n"
+                                    },
+                                    "weight": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "tap": {
+                            "items": {
+                                "properties": {
+                                    "cluster_key": {
+                                        "type": "string"
+                                    },
+                                    "constraint_key": {
+                                        "type": "string"
+                                    },
+                                    "metadata": {
+                                        "items": {
+                                            "properties": {
+                                                "key": {
+                                                    "type": "string"
+                                                },
+                                                "value": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "properties": {
+                                        "items": {
+                                            "properties": {
+                                                "key": {
+                                                    "type": "string"
+                                                },
+                                                "value": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "response_data": {
+                                        "allOf": [
+                                            {
+                                                "properties": {
+                                                    "cookies": {
+                                                        "items": {
+                                                            "description": "This describes a cookie that should be set in response to a HTTP request.\n",
+                                                            "properties": {
+                                                                "domain": {
+                                                                    "description": "Specifies the hosts to hich a cookie will be sent. Maps directly to a\ncookie's 'Domain' attribute.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "expires_in_sec": {
+                                                                    "description": "This indicates how long a cookie will be valid, in seconds. If not set the\ndefault is to provide no expiration information. If set to 0 the cookie will\nhave an 'Expires' attribute set to 'Mon, 1 Jan 0001 12:00:00 UTC'. For values\ngreater than 0 the cookie's 'Max-Age' attribute will be set to that value.\n",
+                                                                    "type": "integer"
+                                                                },
+                                                                "http_only": {
+                                                                    "description": "If set the cookie value will not be accessible via Document.cookie. Maps\ndirectly to 'HttpOnly' attribute.\n",
+                                                                    "type": "boolean"
+                                                                },
+                                                                "name": {
+                                                                    "description": "The name of the cookie that will be attached to the response sent.",
+                                                                    "type": "string"
+                                                                },
+                                                                "path": {
+                                                                    "description": "Specifies the path a cookie will be associated with. Maps directly to\nthe 'Path' attribute.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "same_site": {
+                                                                    "description": "Allows assertions how a cookie should behave wend making cross-site requests.\nMaps directly to 'SameSite' attribute. If unset no guidance will be included\nin the cookie.\n",
+                                                                    "enum": [
+                                                                        "Strict",
+                                                                        "Lax"
+                                                                    ],
+                                                                    "type": "string"
+                                                                },
+                                                                "secure": {
+                                                                    "description": "If set the cookie will only be sent on subsequent requests when accessing\na server via HTTPS. Maps directly to 'Secure' attribute.\n",
+                                                                    "type": "boolean"
+                                                                },
+                                                                "value": {
+                                                                    "description": "A literal value to send as the cookie value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "value_is_literal": {
+                                                                    "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve to a server metadatum.\n",
+                                                                    "type": "boolean"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "type": "array"
+                                                    },
+                                                    "headers": {
+                                                        "items": {
+                                                            "description": "This describes a HTTP header that should be attached to requests.\n",
+                                                            "properties": {
+                                                                "name": {
+                                                                    "description": "The name of the header that will be attached to the response sent.\nThis is case insensitive.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "value": {
+                                                                    "description": "A literal value to send as the header value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request. If this value is empty after looking up an\nInstance metadatum value no header will be sent.\n",
+                                                                    "type": "string"
+                                                                },
+                                                                "value_is_literal": {
+                                                                    "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve instance metadatum to find a value.\n",
+                                                                    "type": "boolean"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "type": "array"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        ],
+                                        "description": "When a request is served by a cluster selected by this constraint annotate\nthe response with the information specified within this ResponseData\nobject. It's possible that multiple response data configurations will\napply; if that's the case then the values from ClusterConstarint takes\nprecedence over those from a Route or SharedRules object.\n"
+                                    },
+                                    "weight": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "light"
+                    ],
+                    "type": "object"
+                },
+                "properties": {
+                    "items": {
+                        "properties": {
+                            "key": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "response_data": {
+                    "allOf": [
+                        {
+                            "properties": {
+                                "cookies": {
+                                    "items": {
+                                        "description": "This describes a cookie that should be set in response to a HTTP request.\n",
+                                        "properties": {
+                                            "domain": {
+                                                "description": "Specifies the hosts to hich a cookie will be sent. Maps directly to a\ncookie's 'Domain' attribute.\n",
+                                                "type": "string"
+                                            },
+                                            "expires_in_sec": {
+                                                "description": "This indicates how long a cookie will be valid, in seconds. If not set the\ndefault is to provide no expiration information. If set to 0 the cookie will\nhave an 'Expires' attribute set to 'Mon, 1 Jan 0001 12:00:00 UTC'. For values\ngreater than 0 the cookie's 'Max-Age' attribute will be set to that value.\n",
+                                                "type": "integer"
+                                            },
+                                            "http_only": {
+                                                "description": "If set the cookie value will not be accessible via Document.cookie. Maps\ndirectly to 'HttpOnly' attribute.\n",
+                                                "type": "boolean"
+                                            },
+                                            "name": {
+                                                "description": "The name of the cookie that will be attached to the response sent.",
+                                                "type": "string"
+                                            },
+                                            "path": {
+                                                "description": "Specifies the path a cookie will be associated with. Maps directly to\nthe 'Path' attribute.\n",
+                                                "type": "string"
+                                            },
+                                            "same_site": {
+                                                "description": "Allows assertions how a cookie should behave wend making cross-site requests.\nMaps directly to 'SameSite' attribute. If unset no guidance will be included\nin the cookie.\n",
+                                                "enum": [
+                                                    "Strict",
+                                                    "Lax"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "secure": {
+                                                "description": "If set the cookie will only be sent on subsequent requests when accessing\na server via HTTPS. Maps directly to 'Secure' attribute.\n",
+                                                "type": "boolean"
+                                            },
+                                            "value": {
+                                                "description": "A literal value to send as the cookie value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request.\n",
+                                                "type": "string"
+                                            },
+                                            "value_is_literal": {
+                                                "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve to a server metadatum.\n",
+                                                "type": "boolean"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                },
+                                "headers": {
+                                    "items": {
+                                        "description": "This describes a HTTP header that should be attached to requests.\n",
+                                        "properties": {
+                                            "name": {
+                                                "description": "The name of the header that will be attached to the response sent.\nThis is case insensitive.\n",
+                                                "type": "string"
+                                            },
+                                            "value": {
+                                                "description": "A literal value to send as the header value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request. If this value is empty after looking up an\nInstance metadatum value no header will be sent.\n",
+                                                "type": "string"
+                                            },
+                                            "value_is_literal": {
+                                                "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve instance metadatum to find a value.\n",
+                                                "type": "boolean"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ],
+                    "description": "When a request is served by a Route that is part of this SharedRules\ngroup the response is annotated with the information specified within\nthis ResponseData object. It's possible that multiple response data\nconfigurations will apply; if that's the case then the values from\nthe applicable Route and ClusterConstarint takes precedence over those\nspecified here.\n"
+                },
+                "retry_policy": {
+                    "description": "Number of times to retry a request and how long to wait before timing out.",
+                    "properties": {
+                        "num_retries": {
+                            "description": "Number of times to retry an upstream request. Note that the initial\nconnection attempt is not included in this number, hence 0 means initial\nattempt and no retries, and 1 means initial attempt plus one retry.\n",
+                            "format": "int64",
+                            "type": "integer"
+                        },
+                        "per_try_timeout_msec": {
+                            "description": "Time limit in milliseconds for a single attempt.",
+                            "format": "int64",
+                            "type": "integer"
+                        },
+                        "timeout_msec": {
+                            "description": "Total time limit in milliseconds for all attempts (including the initial attempt)\n",
+                            "format": "int64",
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                },
+                "rules": {
+                    "items": {
+                        "properties": {
+                            "cohort_seed": {
+                                "properties": {
+                                    "name": {
+                                        "description": "The name of the cookie, the header field, or the query argument to\nbe checked for a cohort seed value.\n",
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "description": "Where a request's cohort seed will be drawn from.",
+                                        "enum": [
+                                            "header",
+                                            "cookie",
+                                            "query"
+                                        ],
+                                        "type": "string"
+                                    },
+                                    "use_zero_value_seed": {
+                                        "description": "If true, requests with a seed source which resolves to an empty value\nwill still be grouped and routed consistently. This means a misspelled\nor missing seed source on a request will sort all such traffic into a\nsingle backend. This could result in all traffic being assigned to a\nbackend intended for only a small percentage of traffic. Use with\ncaution.\n",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "constraints": {
+                                "properties": {
+                                    "dark": {
+                                        "items": {
+                                            "properties": {
+                                                "cluster_key": {
+                                                    "type": "string"
+                                                },
+                                                "constraint_key": {
+                                                    "type": "string"
+                                                },
+                                                "metadata": {
+                                                    "items": {
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string"
+                                                            },
+                                                            "value": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                },
+                                                "properties": {
+                                                    "items": {
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string"
+                                                            },
+                                                            "value": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                },
+                                                "response_data": {
+                                                    "allOf": [
+                                                        {
+                                                            "properties": {
+                                                                "cookies": {
+                                                                    "items": {
+                                                                        "description": "This describes a cookie that should be set in response to a HTTP request.\n",
+                                                                        "properties": {
+                                                                            "domain": {
+                                                                                "description": "Specifies the hosts to hich a cookie will be sent. Maps directly to a\ncookie's 'Domain' attribute.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "expires_in_sec": {
+                                                                                "description": "This indicates how long a cookie will be valid, in seconds. If not set the\ndefault is to provide no expiration information. If set to 0 the cookie will\nhave an 'Expires' attribute set to 'Mon, 1 Jan 0001 12:00:00 UTC'. For values\ngreater than 0 the cookie's 'Max-Age' attribute will be set to that value.\n",
+                                                                                "type": "integer"
+                                                                            },
+                                                                            "http_only": {
+                                                                                "description": "If set the cookie value will not be accessible via Document.cookie. Maps\ndirectly to 'HttpOnly' attribute.\n",
+                                                                                "type": "boolean"
+                                                                            },
+                                                                            "name": {
+                                                                                "description": "The name of the cookie that will be attached to the response sent.",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "path": {
+                                                                                "description": "Specifies the path a cookie will be associated with. Maps directly to\nthe 'Path' attribute.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "same_site": {
+                                                                                "description": "Allows assertions how a cookie should behave wend making cross-site requests.\nMaps directly to 'SameSite' attribute. If unset no guidance will be included\nin the cookie.\n",
+                                                                                "enum": [
+                                                                                    "Strict",
+                                                                                    "Lax"
+                                                                                ],
+                                                                                "type": "string"
+                                                                            },
+                                                                            "secure": {
+                                                                                "description": "If set the cookie will only be sent on subsequent requests when accessing\na server via HTTPS. Maps directly to 'Secure' attribute.\n",
+                                                                                "type": "boolean"
+                                                                            },
+                                                                            "value": {
+                                                                                "description": "A literal value to send as the cookie value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "value_is_literal": {
+                                                                                "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve to a server metadatum.\n",
+                                                                                "type": "boolean"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "type": "array"
+                                                                },
+                                                                "headers": {
+                                                                    "items": {
+                                                                        "description": "This describes a HTTP header that should be attached to requests.\n",
+                                                                        "properties": {
+                                                                            "name": {
+                                                                                "description": "The name of the header that will be attached to the response sent.\nThis is case insensitive.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "value": {
+                                                                                "description": "A literal value to send as the header value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request. If this value is empty after looking up an\nInstance metadatum value no header will be sent.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "value_is_literal": {
+                                                                                "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve instance metadatum to find a value.\n",
+                                                                                "type": "boolean"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "type": "array"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    ],
+                                                    "description": "When a request is served by a cluster selected by this constraint annotate\nthe response with the information specified within this ResponseData\nobject. It's possible that multiple response data configurations will\napply; if that's the case then the values from ClusterConstarint takes\nprecedence over those from a Route or SharedRules object.\n"
+                                                },
+                                                "weight": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "light": {
+                                        "items": {
+                                            "properties": {
+                                                "cluster_key": {
+                                                    "type": "string"
+                                                },
+                                                "constraint_key": {
+                                                    "type": "string"
+                                                },
+                                                "metadata": {
+                                                    "items": {
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string"
+                                                            },
+                                                            "value": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                },
+                                                "properties": {
+                                                    "items": {
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string"
+                                                            },
+                                                            "value": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                },
+                                                "response_data": {
+                                                    "allOf": [
+                                                        {
+                                                            "properties": {
+                                                                "cookies": {
+                                                                    "items": {
+                                                                        "description": "This describes a cookie that should be set in response to a HTTP request.\n",
+                                                                        "properties": {
+                                                                            "domain": {
+                                                                                "description": "Specifies the hosts to hich a cookie will be sent. Maps directly to a\ncookie's 'Domain' attribute.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "expires_in_sec": {
+                                                                                "description": "This indicates how long a cookie will be valid, in seconds. If not set the\ndefault is to provide no expiration information. If set to 0 the cookie will\nhave an 'Expires' attribute set to 'Mon, 1 Jan 0001 12:00:00 UTC'. For values\ngreater than 0 the cookie's 'Max-Age' attribute will be set to that value.\n",
+                                                                                "type": "integer"
+                                                                            },
+                                                                            "http_only": {
+                                                                                "description": "If set the cookie value will not be accessible via Document.cookie. Maps\ndirectly to 'HttpOnly' attribute.\n",
+                                                                                "type": "boolean"
+                                                                            },
+                                                                            "name": {
+                                                                                "description": "The name of the cookie that will be attached to the response sent.",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "path": {
+                                                                                "description": "Specifies the path a cookie will be associated with. Maps directly to\nthe 'Path' attribute.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "same_site": {
+                                                                                "description": "Allows assertions how a cookie should behave wend making cross-site requests.\nMaps directly to 'SameSite' attribute. If unset no guidance will be included\nin the cookie.\n",
+                                                                                "enum": [
+                                                                                    "Strict",
+                                                                                    "Lax"
+                                                                                ],
+                                                                                "type": "string"
+                                                                            },
+                                                                            "secure": {
+                                                                                "description": "If set the cookie will only be sent on subsequent requests when accessing\na server via HTTPS. Maps directly to 'Secure' attribute.\n",
+                                                                                "type": "boolean"
+                                                                            },
+                                                                            "value": {
+                                                                                "description": "A literal value to send as the cookie value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "value_is_literal": {
+                                                                                "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve to a server metadatum.\n",
+                                                                                "type": "boolean"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "type": "array"
+                                                                },
+                                                                "headers": {
+                                                                    "items": {
+                                                                        "description": "This describes a HTTP header that should be attached to requests.\n",
+                                                                        "properties": {
+                                                                            "name": {
+                                                                                "description": "The name of the header that will be attached to the response sent.\nThis is case insensitive.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "value": {
+                                                                                "description": "A literal value to send as the header value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request. If this value is empty after looking up an\nInstance metadatum value no header will be sent.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "value_is_literal": {
+                                                                                "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve instance metadatum to find a value.\n",
+                                                                                "type": "boolean"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "type": "array"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    ],
+                                                    "description": "When a request is served by a cluster selected by this constraint annotate\nthe response with the information specified within this ResponseData\nobject. It's possible that multiple response data configurations will\napply; if that's the case then the values from ClusterConstarint takes\nprecedence over those from a Route or SharedRules object.\n"
+                                                },
+                                                "weight": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "tap": {
+                                        "items": {
+                                            "properties": {
+                                                "cluster_key": {
+                                                    "type": "string"
+                                                },
+                                                "constraint_key": {
+                                                    "type": "string"
+                                                },
+                                                "metadata": {
+                                                    "items": {
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string"
+                                                            },
+                                                            "value": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                },
+                                                "properties": {
+                                                    "items": {
+                                                        "properties": {
+                                                            "key": {
+                                                                "type": "string"
+                                                            },
+                                                            "value": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                },
+                                                "response_data": {
+                                                    "allOf": [
+                                                        {
+                                                            "properties": {
+                                                                "cookies": {
+                                                                    "items": {
+                                                                        "description": "This describes a cookie that should be set in response to a HTTP request.\n",
+                                                                        "properties": {
+                                                                            "domain": {
+                                                                                "description": "Specifies the hosts to hich a cookie will be sent. Maps directly to a\ncookie's 'Domain' attribute.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "expires_in_sec": {
+                                                                                "description": "This indicates how long a cookie will be valid, in seconds. If not set the\ndefault is to provide no expiration information. If set to 0 the cookie will\nhave an 'Expires' attribute set to 'Mon, 1 Jan 0001 12:00:00 UTC'. For values\ngreater than 0 the cookie's 'Max-Age' attribute will be set to that value.\n",
+                                                                                "type": "integer"
+                                                                            },
+                                                                            "http_only": {
+                                                                                "description": "If set the cookie value will not be accessible via Document.cookie. Maps\ndirectly to 'HttpOnly' attribute.\n",
+                                                                                "type": "boolean"
+                                                                            },
+                                                                            "name": {
+                                                                                "description": "The name of the cookie that will be attached to the response sent.",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "path": {
+                                                                                "description": "Specifies the path a cookie will be associated with. Maps directly to\nthe 'Path' attribute.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "same_site": {
+                                                                                "description": "Allows assertions how a cookie should behave wend making cross-site requests.\nMaps directly to 'SameSite' attribute. If unset no guidance will be included\nin the cookie.\n",
+                                                                                "enum": [
+                                                                                    "Strict",
+                                                                                    "Lax"
+                                                                                ],
+                                                                                "type": "string"
+                                                                            },
+                                                                            "secure": {
+                                                                                "description": "If set the cookie will only be sent on subsequent requests when accessing\na server via HTTPS. Maps directly to 'Secure' attribute.\n",
+                                                                                "type": "boolean"
+                                                                            },
+                                                                            "value": {
+                                                                                "description": "A literal value to send as the cookie value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "value_is_literal": {
+                                                                                "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve to a server metadatum.\n",
+                                                                                "type": "boolean"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "type": "array"
+                                                                },
+                                                                "headers": {
+                                                                    "items": {
+                                                                        "description": "This describes a HTTP header that should be attached to requests.\n",
+                                                                        "properties": {
+                                                                            "name": {
+                                                                                "description": "The name of the header that will be attached to the response sent.\nThis is case insensitive.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "value": {
+                                                                                "description": "A literal value to send as the header value or a reference to\nsome metadatum value set on the Cluster Intsance that handles\na specific request. If this value is empty after looking up an\nInstance metadatum value no header will be sent.\n",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "value_is_literal": {
+                                                                                "description": "If true then the value attribute is treated as a literal and no attempt\nto resolve instance metadatum to find a value.\n",
+                                                                                "type": "boolean"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "type": "array"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    ],
+                                                    "description": "When a request is served by a cluster selected by this constraint annotate\nthe response with the information specified within this ResponseData\nobject. It's possible that multiple response data configurations will\napply; if that's the case then the values from ClusterConstarint takes\nprecedence over those from a Route or SharedRules object.\n"
+                                                },
+                                                "weight": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    }
+                                },
+                                "required": [
+                                    "light"
+                                ],
+                                "type": "object"
+                            },
+                            "matches": {
+                                "items": {
+                                    "description": "Represents a mapping of request attributes to constraints on a cluster\nusing different matching schemes.\n\nCertain combinations of `kind` and `behavior` are not allowed\n  | kind | behavior |\n  | ---- | -------- |\n  | query | regex |\n  | query | range |\n  | cookie | range |\n",
+                                    "properties": {
+                                        "behavior": {
+                                            "description": "Defines how a request attribute should be matched. If not specified,\ndefaults to `exact`. Valid values are\n  * exact\n  * regex\n  * range\n  * prefix\n  * suffix\n",
+                                            "type": "string"
+                                        },
+                                        "from": {
+                                            "allOf": [
+                                                {
+                                                    "properties": {
+                                                        "key": {
+                                                            "type": "string"
+                                                        },
+                                                        "value": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            ],
+                                            "description": "The request attribute key and value to match. `key` must always be\ndefined while `value` can be unspecified (only if behavior is set to\n`exact`) to indicate that all values should be matched. If to.value\nis also unspecified, the matched value of the request will be used as\na constraint on the destination cluster.\n\n\\# Behavior\n  * `regex` if To.Value is unspecified, `value` must contain one and\n  only one subgroup. Otherwise, `value` must not be empty.\n  * `range` `value` must be specified and must be of the format\n  `[start_integer, end_integer)`. Start and end must be valid integer\n  values and `end_integer` must be greater than `start_integer`.\n  * `prefix`/`suffix` `value` must be specified\n\n\\# Kind\n  * `cookie` does not support `range` behavior\n  * `query` does not support `regex` behavior\n"
+                                        },
+                                        "kind": {
+                                            "description": "Defines the attribute by which a request should be matched on. Valid\nvalues are\n  * cookie\n  * header\n  * query (for query parameter)\n",
+                                            "type": "string"
+                                        },
+                                        "to": {
+                                            "allOf": [
+                                                {
+                                                    "properties": {
+                                                        "key": {
+                                                            "type": "string"
+                                                        },
+                                                        "value": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            ],
+                                            "description": "The constraints on a cluster that a matched request should map to. If\nto.key is specified and to.value is not, the matched from.value will\nbe used as a metadata constraint on instances in the destination\ncluster, keyed by to.key. If using `regex` behavior with multiple\nsubgroups in from.value, variables `$1` through `$n`, where n is the\nnumber of subgroups in the matching regex, can be used to interpolate\ncaptured matches in to.value.\n"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "methods": {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            "rule_key": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "shared_rules_key": {
+                    "type": "string"
+                },
+                "zone_key": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zone_key",
+                "default"
+            ],
+            "type": "object"
+        }
+    }
+}

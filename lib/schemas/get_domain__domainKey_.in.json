@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "domainKey": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

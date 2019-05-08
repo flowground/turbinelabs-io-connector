@@ -1,0 +1,36 @@
+{
+    "type": "object",
+    "properties": {
+        "sharedRulesKey": {
+            "required": true,
+            "type": "string"
+        },
+        "start": {
+            "required": false,
+            "type": "number",
+            "format": "int64"
+        },
+        "end": {
+            "required": false,
+            "type": "number",
+            "format": "int64"
+        },
+        "max_results": {
+            "required": false,
+            "type": "number",
+            "format": "int64"
+        },
+        "ref_id": {
+            "required": false,
+            "type": "string"
+        },
+        "direction": {
+            "required": false,
+            "type": "string",
+            "enum": [
+                "before",
+                "after"
+            ]
+        }
+    }
+}

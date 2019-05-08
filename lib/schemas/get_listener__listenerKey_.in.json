@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "listenerKey": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

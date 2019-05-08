@@ -1,0 +1,783 @@
+{
+    "title": "Turbine Labs",
+    "description": "The Turbine Labs API provides CRUD operations for core object types, and is\nmostly RESTy. The easiest way to interact with the API is with\n[tbnctl](https://docs.turbinelabs.io/advanced/tbnctl.html).\nIf you want to make direct HTTP calls, however, you can obtain an access\ntoken using tbnctl, and then pass it in the Authorization header,\nprefixed by `Token `:\n```console\ncurl -H \"Authorization: Token <access token>\" https://api.turbinelabs.io/v1.0/cluster\n```\n",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/turbinelabs.io/1.0/swagger.json",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://api.turbinelabs.io/v1.0",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "api_key": {
+                "label": "Authorization (api_key)",
+                "viewClass": "TextFieldView"
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "get_admin_user_self": {
+            "main": "./lib/actions/get_admin_user_self.js",
+            "title": "Returns the user object for the account authorized and making this request.",
+            "description": "Request the user object for an authorized requesting account.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_admin_user_self.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_admin_user_self_access_token__access_token_key_": {
+            "main": "./lib/actions/delete_admin_user_self_access_token__access_token_key_.js",
+            "title": "Delete the specified access token.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_admin_user_self_access_token__access_token_key_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_admin_user_self_access_tokens": {
+            "main": "./lib/actions/get_admin_user_self_access_tokens.js",
+            "title": "Lists Access Tokens that are configured for the authenticated user.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_admin_user_self_access_tokens.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_admin_user_self_access_tokens": {
+            "main": "./lib/actions/post_admin_user_self_access_tokens.js",
+            "title": "Creates a new Access Token and associates it with the authenticated user.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_admin_user_self_access_tokens.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_changelog_adhoc": {
+            "main": "./lib/actions/get_changelog_adhoc.js",
+            "title": "Allows an arbitrary filter to be specified and applied to the org\\'s change log.",
+            "description": "Perform an adhoc query against the change log for your org. The filter is a JSON encoded FilterSum as defined in this file.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_changelog_adhoc.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_changelog_cluster_graph__clusterKey_": {
+            "main": "./lib/actions/get_changelog_cluster_graph__clusterKey_.js",
+            "title": "get changes related to the indicated cluster",
+            "description": "Gets all changes to a cluster.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_changelog_cluster_graph__clusterKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_changelog_domain_graph__domainKey_": {
+            "main": "./lib/actions/get_changelog_domain_graph__domainKey_.js",
+            "title": "get changes related to the indicated domain",
+            "description": "Gets all changes to a domain, the proxies that front the specified domain,\nroutes within that domain, the shared rules of each route, the clusters\nconnected via route or shared rules.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_changelog_domain_graph__domainKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_changelog_route_graph__routeKey_": {
+            "main": "./lib/actions/get_changelog_route_graph__routeKey_.js",
+            "title": "get changes related to the indicated route",
+            "description": "Gets all changes to a route, the domains associated with it, the shared\nrules it references, and the clusters connected to it.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_changelog_route_graph__routeKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_changelog_shared_rules_graph__sharedRulesKey_": {
+            "main": "./lib/actions/get_changelog_shared_rules_graph__sharedRulesKey_.js",
+            "title": "get changes related to the indicated SharedRules",
+            "description": "Gets all changes associated with set of Shared Rules; the domains using\nit and the clusters referenced by it.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_changelog_shared_rules_graph__sharedRulesKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_changelog_zone__zoneKey_": {
+            "main": "./lib/actions/get_changelog_zone__zoneKey_.js",
+            "title": "get changes in a specified zone",
+            "description": "Retrieve all changes in the specified zone.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_changelog_zone__zoneKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_cluster": {
+            "main": "./lib/actions/get_cluster.js",
+            "title": "get clusters",
+            "description": "Get a list of clusters",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_cluster.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_cluster": {
+            "main": "./lib/actions/post_cluster.js",
+            "title": "create cluster",
+            "description": "Create a new cluster",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_cluster.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_cluster__clusterKey_": {
+            "main": "./lib/actions/delete_cluster__clusterKey_.js",
+            "title": "delete cluster",
+            "description": "Delete an existing cluster",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_cluster__clusterKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_cluster__clusterKey_": {
+            "main": "./lib/actions/get_cluster__clusterKey_.js",
+            "title": "get cluster",
+            "description": "Get details for an existing cluster",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_cluster__clusterKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_cluster__clusterKey_": {
+            "main": "./lib/actions/put_cluster__clusterKey_.js",
+            "title": "modify cluster",
+            "description": "Modify an existing cluster",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_cluster__clusterKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_cluster__clusterKey__instances": {
+            "main": "./lib/actions/post_cluster__clusterKey__instances.js",
+            "title": "add instance",
+            "description": "Add a new instance to a cluster",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_cluster__clusterKey__instances.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_cluster__clusterKey__instances__instanceIdentifier_": {
+            "main": "./lib/actions/delete_cluster__clusterKey__instances__instanceIdentifier_.js",
+            "title": "remove instance",
+            "description": "Remove an instance from a cluster",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_cluster__clusterKey__instances__instanceIdentifier_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_domain": {
+            "main": "./lib/actions/get_domain.js",
+            "title": "get domains",
+            "description": "Get a list of domains",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_domain.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_domain": {
+            "main": "./lib/actions/post_domain.js",
+            "title": "create domain",
+            "description": "Create a new domain",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_domain.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_domain__domainKey_": {
+            "main": "./lib/actions/delete_domain__domainKey_.js",
+            "title": "delete domain",
+            "description": "Delete an existing domain",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_domain__domainKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_domain__domainKey_": {
+            "main": "./lib/actions/get_domain__domainKey_.js",
+            "title": "get domain",
+            "description": "Get details for a single domain",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_domain__domainKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_listener": {
+            "main": "./lib/actions/get_listener.js",
+            "title": "list listeners",
+            "description": "Get a list of listeners",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_listener.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_listener": {
+            "main": "./lib/actions/post_listener.js",
+            "title": "create listener",
+            "description": "Create a new listener",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_listener.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_listener__listenerKey_": {
+            "main": "./lib/actions/delete_listener__listenerKey_.js",
+            "title": "delete listener",
+            "description": "Delete existing listener",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_listener__listenerKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_listener__listenerKey_": {
+            "main": "./lib/actions/get_listener__listenerKey_.js",
+            "title": "get listener",
+            "description": "Get details for a single listener",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_listener__listenerKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_listener__listenerKey_": {
+            "main": "./lib/actions/put_listener__listenerKey_.js",
+            "title": "modify listener",
+            "description": "Modify an existing listener",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_listener__listenerKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_proxy": {
+            "main": "./lib/actions/get_proxy.js",
+            "title": "list proxies",
+            "description": "Get a list of proxies",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_proxy.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_proxy": {
+            "main": "./lib/actions/post_proxy.js",
+            "title": "create proxy",
+            "description": "Create a new proxy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_proxy.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_proxy__proxyKey_": {
+            "main": "./lib/actions/delete_proxy__proxyKey_.js",
+            "title": "delete proxy",
+            "description": "Delete existing proxy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_proxy__proxyKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_proxy__proxyKey_": {
+            "main": "./lib/actions/get_proxy__proxyKey_.js",
+            "title": "get proxy",
+            "description": "Get details for a single proxy",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_proxy__proxyKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_route": {
+            "main": "./lib/actions/get_route.js",
+            "title": "get routes",
+            "description": "Get a list of routes",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_route.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_route": {
+            "main": "./lib/actions/post_route.js",
+            "title": "create route",
+            "description": "Create a new route",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_route.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_route__routeKey_": {
+            "main": "./lib/actions/delete_route__routeKey_.js",
+            "title": "delete route",
+            "description": "Delete an existing route",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_route__routeKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_route__routeKey_": {
+            "main": "./lib/actions/get_route__routeKey_.js",
+            "title": "get route",
+            "description": "Get details for an existing route",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_route__routeKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_route__routeKey_": {
+            "main": "./lib/actions/put_route__routeKey_.js",
+            "title": "modify route",
+            "description": "Modify an existing route",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_route__routeKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_shared_rules": {
+            "main": "./lib/actions/get_shared_rules.js",
+            "title": "get shared_rules",
+            "description": "Get a list of shared_rules",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_shared_rules.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_shared_rules": {
+            "main": "./lib/actions/post_shared_rules.js",
+            "title": "create shared_rules",
+            "description": "Create a new shared_rules object",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_shared_rules.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_shared_rules__sharedRulesKey_": {
+            "main": "./lib/actions/delete_shared_rules__sharedRulesKey_.js",
+            "title": "delete shared_rules object",
+            "description": "Delete an existing shared_rules object",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_shared_rules__sharedRulesKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_shared_rules__sharedRulesKey_": {
+            "main": "./lib/actions/get_shared_rules__sharedRulesKey_.js",
+            "title": "get shared_rules object",
+            "description": "Get details for an existing shared_rules object",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_shared_rules__sharedRulesKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "put_shared_rules__sharedRulesKey_": {
+            "main": "./lib/actions/put_shared_rules__sharedRulesKey_.js",
+            "title": "modify shared_rules object",
+            "description": "Modify an existing shared_rules object",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/put_shared_rules__sharedRulesKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_zone": {
+            "main": "./lib/actions/get_zone.js",
+            "title": "get a list of zones",
+            "description": "Get all zones. possibly with filters\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_zone.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_zone": {
+            "main": "./lib/actions/post_zone.js",
+            "title": "create zone",
+            "description": "Create a new zone.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_zone.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "delete_zone__zoneKey_": {
+            "main": "./lib/actions/delete_zone__zoneKey_.js",
+            "title": "delete zone",
+            "description": "Delete a zone.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/delete_zone__zoneKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_zone__zoneKey_": {
+            "main": "./lib/actions/get_zone__zoneKey_.js",
+            "title": "get zone",
+            "description": "Get details for a single zone\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_zone__zoneKey_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

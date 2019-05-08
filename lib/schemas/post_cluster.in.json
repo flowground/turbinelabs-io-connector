@@ -1,0 +1,238 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "circuit_breakers": {
+                    "description": "Provides limits on various parameters to protect clusters against sudden\nsurges in traffic.\n",
+                    "properties": {
+                        "max_connections": {
+                            "description": "Maximum number of connections that will be established to all\ninstances in a cluster within a proxy. If set to 0, no new connections\nwill be created. If not specified, defaults to 1024.\n",
+                            "type": "integer"
+                        },
+                        "max_pending_requests": {
+                            "description": "Maximum number of requests that will be queued while waiting on a\nconnection pool to a cluster within a proxy. If set to 0, no requests\nwill be queued. If not specified, defaults to 1024.\n",
+                            "type": "integer"
+                        },
+                        "max_requests": {
+                            "description": "Maximum number of requests that can be outstanding to all instances in\na cluster within  a proxy. Only applicable to HTTP/2 traffic since\nHTTP/1.1 clusters are governed by the maximum connections circuit\nbreaker. If set to 0, no requests will be made. If not specified,\ndefaults to 1024.\n",
+                            "type": "integer"
+                        },
+                        "max_retries": {
+                            "description": "Maximum number of retries that can be outstanding to all instances in\na cluster within a proxy. If set to 0, requests will not be retried.\nIf not specified, defaults to 3.\n",
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                },
+                "health_checks": {
+                    "items": {
+                        "description": "Configures active health checking for every instance in a cluster.\n",
+                        "properties": {
+                            "health_checker": {
+                                "description": "Defines the type of health checker to use. Only a single health\nchecker can be defined per HealthCheck.\n",
+                                "properties": {
+                                    "http_health_check": {
+                                        "properties": {
+                                            "host": {
+                                                "description": "The value of the host header in the HTTP health check request.\nIf left empty, the name of the cluster being health checked\nwill be used.\n",
+                                                "type": "string"
+                                            },
+                                            "path": {
+                                                "description": "Specifies the HTTP path that will be requested during health\nchecking.\n",
+                                                "type": "string"
+                                            },
+                                            "request_headers_to_add": {
+                                                "allOf": [
+                                                    {
+                                                        "items": {
+                                                            "properties": {
+                                                                "key": {
+                                                                    "type": "string"
+                                                                },
+                                                                "value": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "type": "array"
+                                                    }
+                                                ],
+                                                "description": "Specifies a list of HTTP headers that should be added to each request\nsent to the health checked cluster.\n"
+                                            },
+                                            "service_name": {
+                                                "description": "An optional service name parameter which is used to validate\nthe identity of the health checked cluster.\n",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "tcp_health_check": {
+                                        "properties": {
+                                            "receive": {
+                                                "description": "An array of base64 encoded strings, each representing array of\nbytes that is expected in health check responses. When\nchecking the response, \"fuzzy\" matching is performed such that\neach binary block must be found, and in the order specified,\nbut not necessarily contiguously.\n",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "type": "array"
+                                            },
+                                            "send": {
+                                                "description": "Base64 encoded string representing an array of bytes to be\nsent in health check requests. Leaving this field empty\nimplies a connect-only health check.\n",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "healthy_edge_interval_msec": {
+                                "description": "Interval used for the first health check right after a host is marked\nas healthy. For subsequent health checks, the proxy will shift back to\nusing the standard health check interval(\\'interval_msec\\') that is\ndefined. Defaults to the same value as \\'interval_msec\\' if not\nspecified.\n",
+                                "type": "integer"
+                            },
+                            "healthy_threshold": {
+                                "description": "The number of healthy health checks required before a host is marked\nhealthy. Note that during startup, only a single successful health\ncheck is required to mark a host healthy.\n",
+                                "type": "integer"
+                            },
+                            "interval_jitter_msec": {
+                                "description": "An optional jitter amount that is added to each interval value\ncalculated by the proxy. If not specified, defaults to 0.\n",
+                                "type": "integer"
+                            },
+                            "interval_msec": {
+                                "description": "The interval between health checks. The first round of health checks\nwill occur during startup before any traffic is routed to a cluster.\nThis means that the \\'no_traffic_interval_msec\\' value will be used as\nthe first interval of health checks.\n",
+                                "type": "integer"
+                            },
+                            "no_traffic_interval_msec": {
+                                "description": "Interval used when a cluster has never had traffic routed to it. It\nallows cluster information to be kept up to date, without sending a\npotentially large amount of active health checking traffic for no\nreason. Once a cluster has been used for traffic routing, The proxy\nwill shift back to using the standard health check interval that is\ndefined. Note that this interval takes precedence over any other.\nDefaults to 60s.\n",
+                                "type": "integer"
+                            },
+                            "reuse_connection": {
+                                "description": "Whether or not to reuse health check connections between health checks.\nDefault is true.\n",
+                                "type": "boolean"
+                            },
+                            "timeout_msec": {
+                                "description": "The time to wait for a health check response. If the timeout is\nreached without a response, the health check attempt will be\nconsidered a failure. This is a required field and must be greater\nthan 0.\n",
+                                "type": "integer"
+                            },
+                            "unhealthy_edge_interval_msec": {
+                                "description": "Interval used for the first health check right after a host is marked\nas unhealthy. For subsequent health checks, the proxy will shift back\nto using either \\'unhealthy_interval_msec\\' if present or the standard\nhealth check interval, \\'interval_msec\\'.\n",
+                                "type": "integer"
+                            },
+                            "unhealthy_interval_msec": {
+                                "description": "Interval used for hosts that are marked as unhealthy. As soon as the\nhost is marked as healthy, The proxy will shift back to using the\nstandard health check interval that is defined. This defaults to the\nsame value as \\'interval_msec\\' if not specified.\n",
+                                "type": "integer"
+                            },
+                            "unhealthy_threshold": {
+                                "description": "The number of unhealthy health checks required before a host is\nmarked unhealthy. Note that for *http* health checking, if a host\nresponds with 503, this threshold is ignored and the host is\nconsidered unhealthy immediately.\n",
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "timeout_msec",
+                            "interval_msec",
+                            "unhealthy_threshold",
+                            "healthy_threshold",
+                            "health_checker"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "instances": {
+                    "items": {
+                        "properties": {
+                            "host": {
+                                "type": "string"
+                            },
+                            "metadata": {
+                                "items": {
+                                    "properties": {
+                                        "key": {
+                                            "type": "string"
+                                        },
+                                        "value": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "port": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "outlier_detection": {
+                    "description": "A form of passive health checking that dynamically determines whether\ninstances in a cluster are performing unlike others and preemptively\nremoves them from a load balancing set.\n",
+                    "properties": {
+                        "base_ejection_time_msec": {
+                            "description": "The base time that a host is ejected for. The real time is equal to\nthe base time multiplied by the number of times the host has been\nejected. Defaults to 30s. Setting this to 0 means that no host will\nbe ejected for longer than `interval_msec`.\n",
+                            "type": "integer"
+                        },
+                        "consecutive_5xx": {
+                            "description": "The number of consecutive 5xx responses before a consecutive 5xx ejection\noccurs. Defaults to 5. Setting this to 0 effectively turns off the\nconsecutive 5xx detector.\n",
+                            "type": "integer"
+                        },
+                        "consecutive_gateway_failure": {
+                            "description": "The number of consecutive gateway failures (502, 503, 504 status or\nconnection errors that are mapped to one of those status codes) before a\nconsecutive gateway failure ejection occurs. Defaults to 5. Setting this\nto 0 effectively turns off the consecutive gateway failure detector.\n",
+                            "type": "integer"
+                        },
+                        "enforcing_consecutive_5xx": {
+                            "description": "The % chance that a host will be actually ejected when an outlier status\nis detected through consecutive 5xx. This setting can be used to disable\nejection or to ramp it up slowly. Defaults to 100.\n",
+                            "type": "integer"
+                        },
+                        "enforcing_consecutive_gateway_failure": {
+                            "description": "The % chance that a host will be actually ejected when an outlier status\nis detected through consecutive gateway failures. This setting can be\nused to disable ejection or to ramp it up slowly. Defaults to 0.\n",
+                            "type": "integer"
+                        },
+                        "enforcing_success_rate": {
+                            "description": "The % chance that a host will be actually ejected when an outlier status\nis detected through success rate statistics. This setting can be used to\ndisable ejection or to ramp it up slowly. Defaults to 100.\n",
+                            "type": "integer"
+                        },
+                        "interval_msec": {
+                            "description": "The time interval between ejection analysis sweeps. This can result in\nboth new ejections due to success rate outlier detection as well as\nhosts being returned to service. Defaults to 10s and must be greater\nthan 0.\n",
+                            "type": "integer"
+                        },
+                        "max_ejection_percent": {
+                            "description": "The maximum % of an upstream cluster that can be ejected due to\noutlier detection. Defaults to 10% but will always eject at least one\nhost.\n",
+                            "type": "integer"
+                        },
+                        "success_rate_minimum_hosts": {
+                            "description": "The number of hosts in a cluster that must have enough request volume to\ndetect success rate outliers. If the number of hosts is less than this\nsetting, outlier detection via success rate statistics is not performed\nfor any host in the cluster. Defaults to 5. Setting this to 0 effectively\ntriggers the success rate detector regardless of the number of valid hosts\nduring an interval (as determined by `success_rate_request_volume`).\n",
+                            "type": "integer"
+                        },
+                        "success_rate_request_volume": {
+                            "description": "The minimum number of total requests that must be collected in one\ninterval (as defined by interval_msec) to include this host\nin success rate based outlier detection. If the volume is lower than this\nsetting, outlier detection via success rate statistics is not performed\nfor that host. Defaults to 100. Must be greater than 0.\n",
+                            "type": "integer"
+                        },
+                        "success_rate_stdev_factor": {
+                            "description": "This factor is used to determine the ejection threshold for success rate\noutlier ejection. The ejection threshold is the difference between the\nmean success rate, and the product of this factor and the standard\ndeviation of the mean success rate: mean - (stdev *\nsuccess_rate_stdev_factor). This factor is divided by a thousand to get a\ndouble. That is, if the desired factor is 1.9, the runtime value should\nbe 1900. Defaults to 1900. Setting this to 0 effectively turns off the\nsuccess rate detector.\n",
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                },
+                "require_tls": {
+                    "description": "If set, requests to this collection of hosts will be made via HTTPS.\nAt this time neither certificate validation and certificate pinning\nare supported for proxy clients of this cluster.\n",
+                    "type": "boolean"
+                },
+                "zone_key": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zone_key",
+                "name"
+            ],
+            "type": "object"
+        }
+    }
+}

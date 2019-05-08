@@ -1,0 +1,196 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "aliases": {
+                    "description": "A set of alternate names that this Domain may be referenced by. May\nstart ('*.') or end ('.*') with a wildcard.\n",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "checksum": {
+                    "type": "string"
+                },
+                "cors_config": {
+                    "description": "Experimental: Controls simple CORS responses for the associated domain.\nThe configurable properties map closely to the CORS specification which\nshould be referenced for a full discussion on their meaning:\nhttps://www.w3.org/TR/cors/ or https://developer.mozilla.org/docs/Web/HTTP/Access_control_CORS.\n",
+                    "properties": {
+                        "allow_credentials": {
+                            "description": "Indicates whether the response to request can be exposed when the\nomit credentials flag is unset\nhttps://www.w3.org/TR/cors/#access-control-allow-credentials-response-header.\n",
+                            "type": "boolean"
+                        },
+                        "allowed_headers": {
+                            "description": "Specifies what headers are allowed to be set when a request is made.\nhttps://www.w3.org/TR/cors/#access-control-allow-headers-response-header.\n",
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "allowed_methods": {
+                            "description": "Indicates which HTTP request types may be used to call an endpoint.\nhttps://www.w3.org/TR/cors/#access-control-allow-methods-response-header.\n",
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "allowed_origins": {
+                            "description": "Must contain a single element specifying the domain (origin) allowed\nto make requsets to this domain. If any origin is acceptable '*' may\nbe used as a wildcard https://www.w3.org/TR/cors/#origin-request-header,\nhttps://www.w3.org/TR/cors/#access-control-allow-origin-response-header.\n",
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "exposed_headers": {
+                            "description": "Indicates which response headers may be accessed from the browser.\nhttps://www.w3.org/TR/cors/#http-access-control-expose-headers.\n",
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "max_age": {
+                            "description": "Sets how long (in seconds) the response to a preflight request may be\ncached. A value of -1 will disable caching. https://www.w3.org/TR/cors/#access-control-max-age-response-header.\n",
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "allowed_origins",
+                        "allowed_methods"
+                    ],
+                    "type": "object"
+                },
+                "domain_key": {
+                    "type": "string"
+                },
+                "force_https": {
+                    "description": "If set to true, requests must use TLS. If a request is not using TLS, (as determined by\nthe scheme or the presence of X-Forwarded-Proto header), a 301 redirect will be sent\ntelling the client to use HTTPS.\n",
+                    "type": "boolean"
+                },
+                "gzip_enabled": {
+                    "description": "Experimental: if set to true will enable gzip compression on data that passes trough this domain",
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "redirects": {
+                    "items": {
+                        "description": "Specifies how a URL within a domain should be rewritten when requested.\n",
+                        "properties": {
+                            "from": {
+                                "description": "A regexp that will be matched against the URL (not including the host/port). May include capture groups for reference in \"to.\"",
+                                "type": "string"
+                            },
+                            "header_constraints": {
+                                "items": {
+                                    "description": "Indicates that a request's headers should meet some requirement before being\nselected for a rewrite. Must have zore or one elements.\n",
+                                    "properties": {
+                                        "case_sensitive": {
+                                            "description": "If set, the header value check will be case sensitive.",
+                                            "type": "boolean"
+                                        },
+                                        "invert": {
+                                            "description": "If set, the header constraint will succeed if the match described faile.\n",
+                                            "type": "boolean"
+                                        },
+                                        "name": {
+                                            "description": "The header that is being checked. This must match the regexp \"^[0-9a-zA-Z-]+$\".\nThis is checked in a case insensitive manner.\n",
+                                            "type": "string"
+                                        },
+                                        "value": {
+                                            "description": "If set the header's value will be compared to this. The default is to\nmake case insensitive comparisons.\n",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "name"
+                                    ],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "name": {
+                                "description": "A unique (to this Domain) name for the Redirect. Must match the regexp \"^[0-9a-zA-Z-]+$\"",
+                                "type": "string"
+                            },
+                            "redirect_type": {
+                                "description": "How this redirect should be presented via HTTP response code.",
+                                "enum": [
+                                    "permanent",
+                                    "temporary"
+                                ],
+                                "type": "string"
+                            },
+                            "to": {
+                                "description": "The new URL that will be constructed from the request. Capture groups from \"from\" may be referenced as \"$&lt;group number&gt;\" which begins at 1.",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "from",
+                            "to",
+                            "redirect_type"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "ssl_config": {
+                    "description": "Experimental: Specifies whether a domain should support SSL/TLS\nconnections from clients.  If not set the proxy will expect unencrypted HTTP\ntraffic.\n",
+                    "properties": {
+                        "cert_key_pairs": {
+                            "description": "SSLConfig must have one cert_key_pairs entry specified.",
+                            "items": {
+                                "description": "A key/cert pair that will be served when a domain terminates a SSL/TLS\nrequest.  Paths should be absolute and accessible to the user running\nthe proxy instance.\n",
+                                "properties": {
+                                    "certificate_path": {
+                                        "description": "Path to a certificate in the PEM format for the domain. If multiple\ncertificates need to be specified then should be contained in this file\nin the following order: first the primary certificate followed by any\nintermediary certificats.\n",
+                                        "type": "string"
+                                    },
+                                    "key_path": {
+                                        "description": "Path to a file with the secret key in the PEM format for the domain.\n",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "certificate_path",
+                                    "key_path"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "cipher_filter": {
+                            "description": "An OpenSSL compatible filter string indicating the ciphers acceptable\nfor this proxy to use while communicating with clients. The default value\nis EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH. For more information\nsee https://wiki.openssl.org/index.php/Manual:Ciphers(1)\n",
+                            "type": "string"
+                        },
+                        "protocols": {
+                            "description": "A list of acceptable SSL/TLS protocol. The default values are TLSv1,\nTLSv1.1, TLSv1.2. Additional valid values are SSLv2 and SSLv3.\n",
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "cert_key_pairs"
+                    ],
+                    "type": "object"
+                },
+                "zone_key": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zone_key",
+                "name",
+                "port"
+            ],
+            "type": "object"
+        }
+    }
+}

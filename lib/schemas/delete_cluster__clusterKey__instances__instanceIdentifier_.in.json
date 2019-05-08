@@ -1,0 +1,17 @@
+{
+    "type": "object",
+    "properties": {
+        "checksum": {
+            "required": true,
+            "type": "string"
+        },
+        "clusterKey": {
+            "required": true,
+            "type": "string"
+        },
+        "instanceIdentifier": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

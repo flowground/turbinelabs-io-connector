@@ -1,0 +1,74 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "domain_keys": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "x-example": [
+                        "9cd24183-f848-48f8-6f55-0f0724070000",
+                        "9cd24183-f848-48f8-6f55-0f0724070001"
+                    ]
+                },
+                "ip": {
+                    "description": "the interface this listener should bind to.",
+                    "type": "string",
+                    "x-example": "0.0.0.0"
+                },
+                "name": {
+                    "type": "string",
+                    "x-example": "http-web"
+                },
+                "port": {
+                    "description": "the port this listener should bind to.",
+                    "type": "integer",
+                    "x-example": 80
+                },
+                "protocol": {
+                    "description": "the protocol this listener will handle. http and http2 configure the listener to only\nprocess requests of that type. http_auto will adapt to HTTP/1.1 and HTTP/2 as needed.\ntcp configures the listener to be a tcp proxy\n",
+                    "enum": [
+                        "http",
+                        "http2",
+                        "http_auto",
+                        "tcp"
+                    ],
+                    "type": "string"
+                },
+                "tracing_config": {
+                    "description": "Configures tracing operations to be performed on the given listener\n",
+                    "properties": {
+                        "ingress": {
+                            "description": "Determines whether spans sent from this listener should be treated as ingress\nor egress operations.\n",
+                            "type": "boolean",
+                            "x-example": true
+                        },
+                        "request_headers_for_tags": {
+                            "description": "the headers specified here will be added to the generated spans as annotations\n",
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array",
+                            "x-example": [
+                                "x-forwarded-for",
+                                "x-user-id"
+                            ]
+                        }
+                    },
+                    "type": "object"
+                },
+                "zone_key": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "port",
+                "protocol"
+            ],
+            "type": "object"
+        }
+    }
+}

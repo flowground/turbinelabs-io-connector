@@ -1,0 +1,32 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "domain_keys": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "listener_keys": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "zone_key": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "zone_key",
+                "name"
+            ],
+            "type": "object"
+        }
+    }
+}

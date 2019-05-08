@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "properties": {
+        "domainKey": {
+            "required": true,
+            "type": "string"
+        },
+        "checksum": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}

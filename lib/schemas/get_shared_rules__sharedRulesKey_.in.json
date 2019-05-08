@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "sharedRulesKey": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}
